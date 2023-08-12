@@ -1,28 +1,17 @@
-let telNumber = prompt('Введіть номер телефону:');
-
 function isTelNumber (telNumber) {
-    let telArray = telNumber.split('-');
-    if (telArray.length != 5) {
-        telArray = telNumber.split(' ');
-        if (telArray.length != 5) {
-            return null;
-        }
-    };
+    const check = /^(\+?380)([-\s]?\d{2,3}){4}$/;
 
-    if (telArray[0] === '380' || telArray[0] === '+380') {
-        for (let i = 1; i < telArray.length; i++) {
-            const check = /[^0-9]/;
-            str = telArray[i];
-            if (check.test(str) || (i == 2 && str.length != 3) || (i != 2 && str.length != 2) ) {
-                return null;
-            }
-        }
+    if (!check.test(telNumber)) {
+        return null; 
     }
 
     let normalNumber = telNumber.replace(/\D/g, '');
-    normalNumber = normalNumber.replace(/^38/, '');
-    alert(normalNumber);
-    // console.log(telArray);
+
+    normalNumber = normalNumber.replace(/^380/, '0');
+
+    return normalNumber
 }
 
-isTelNumber(telNumber);
+const res = ["+38-044-3-64836-5", "3 8044 3 64836 5", "3 80r44 3 64abc836 5", "+380r44-3-64abc836-5-678", `3 8044
+ 3 64836 5`, '380 44 364 83 65', '+380 44 364 83 65', '380-44-364-83-65', '+380-44-364-83-65'].map(telNumber => isTelNumber(telNumber));
+console.log(res);
